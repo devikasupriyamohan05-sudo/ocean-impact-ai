@@ -28,8 +28,8 @@ if st.button("Generate My Ocean Impact Plan"):
         4. Keep it practical and realistic for a student
         """
 
-        response = genai.chat.create(
-            model="gemini-1.5-t",
+        model = genai.GenerativeModel('models/gemini-2.5-flash')
+        response = model.generate_content(
             messages=[{"author": "user", "content": prompt}]
         )
 
