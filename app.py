@@ -13,9 +13,6 @@ user_input = st.text_area(
 
 if st.button("Generate My Ocean Impact Plan"):
     if user_input:
-        # Initialize Gemini API
-        # Make sure you uploaded your JSON key as a secret in Streamlit
-        # and set environment variable GOOGLE_APPLICATION_CREDENTIALS
         genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
         prompt = f"""
@@ -29,9 +26,13 @@ if st.button("Generate My Ocean Impact Plan"):
         """
 
         model = genai.GenerativeModel('models/gemini-2.5-flash')
-        response = model.generate_content(
-            messages=[{"author": "user", "content": prompt}]
-        )
+
+        # ✅ Pass prompt directly as a positional argument
+        response = model.generate_content(prompt)
 
         st.subheader("🌱 Your Personalized Ocean Plan")
-        st.write(response.last.content)
+
+        # ✅ Use .text, not .last.content
+        st.write(response.text)
+    else:
+        st.warning("Please describe your lifestyle first!")
